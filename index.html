@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ngeab Toung Lay — Accountant</title>
+<meta name="description" content="Ngeab Toung Lay — Accountant based in Revere, MA. Specializing in reconciliations, AP/AR, payroll, and financial reporting.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #faf2ee;
+    --paper-2: #f3dfd6;
+    --ink: #2d1822;
+    --ink-soft: #5d3a4a;
+    --ink-faded: #97737e;
+    --accent: #b04863;
+    --accent-soft: #d18ca0;
+    --rule: #ecd7cf;
+    --shadow: rgba(45, 24, 34, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(176, 72, 99, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(176, 72, 99, 0.04) 0%, transparent 40%);
+    min-height: 100vh;
+  }
+
+  /* Subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+
+  .page {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 56px 80px;
+  }
+
+  /* ── HEADER ───────────────────────────────────────── */
+  header {
+    position: relative;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.1s forwards;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 48px;
+    align-items: end;
+  }
+
+  .header-text { min-width: 0; }
+
+  .portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(45, 24, 34, 0.08),
+      0 12px 32px rgba(45, 24, 34, 0.12);
+    transform: rotate(-1deg);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .portrait:hover { transform: rotate(0deg) scale(1.02); }
+
+  .portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    filter: saturate(0.92);
+  }
+
+  .portrait::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(176, 72, 99, 0.0) 60%, rgba(176, 72, 99, 0.08) 100%);
+    pointer-events: none;
+  }
+
+  .portrait-caption {
+    position: absolute;
+    bottom: -22px;
+    right: 4px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-faded);
+    letter-spacing: 0.04em;
+  }
+
+  .eyebrow {
+    font-family: 'Geist', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  h1 .italic {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    color: var(--accent);
+  }
+
+  .role {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2.4vw, 28px);
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .contact a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .contact a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .contact .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* ── LAYOUT ───────────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 72px;
+  }
+
+  /* ── SECTIONS ─────────────────────────────────────── */
+  section { margin-bottom: 56px; opacity: 0; animation: fadeUp 0.9s ease forwards; }
+  section:nth-of-type(1) { animation-delay: 0.25s; }
+  section:nth-of-type(2) { animation-delay: 0.35s; }
+  section:nth-of-type(3) { animation-delay: 0.45s; }
+  aside section:nth-of-type(1) { animation-delay: 0.4s; }
+  aside section:nth-of-type(2) { animation-delay: 0.5s; }
+  aside section:nth-of-type(3) { animation-delay: 0.6s; }
+
+  .section-label {
+    font-family: 'Geist', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .section-label .num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-faded);
+    letter-spacing: normal;
+  }
+
+  .summary {
+    font-family: 'Fraunces', serif;
+    font-weight: 350;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    max-width: 58ch;
+  }
+  .summary::first-letter {
+    font-size: 1.4em;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* ── EXPERIENCE ───────────────────────────────────── */
+  .job {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+    transition: padding-left 0.3s ease;
+  }
+  .job:hover { padding-left: 6px; }
+  .job:last-child { border-bottom: 1px solid var(--rule); }
+
+  .job-date {
+    font-family: 'Geist', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-faded);
+    letter-spacing: 0.04em;
+    padding-top: 4px;
+    line-height: 1.6;
+  }
+  .job-date .present {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .job-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+
+  .job-company {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .job-company .loc {
+    color: var(--ink-faded);
+    font-style: italic;
+    margin-left: 6px;
+  }
+  .job-company .loc::before {
+    content: '·';
+    margin-right: 6px;
+    color: var(--ink-faded);
+    font-style: normal;
+  }
+
+  .job-list {
+    list-style: none;
+    padding: 0;
+  }
+  .job-list li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 8px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .job-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* ── SIDEBAR ──────────────────────────────────────── */
+  aside { position: relative; }
+
+  .achievement {
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .achievement:last-child { border-bottom: 1px solid var(--rule); }
+
+  .achievement-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .achievement-title .metric {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .achievement-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .edu {
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .edu:last-child { border-bottom: 1px solid var(--rule); }
+  .edu-degree {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .edu-school {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .edu-meta {
+    font-size: 12px;
+    color: var(--ink-faded);
+    margin-top: 6px;
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+  }
+
+  /* ── FOOTER ───────────────────────────────────────── */
+  footer {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    color: var(--ink-faded);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  footer .mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  /* ── ANIMATIONS ───────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ───────────────────────────────────── */
+  @media (max-width: 880px) {
+    .page { padding: 40px 24px 60px; }
+    header { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    .portrait { max-width: 180px; order: -1; margin-bottom: 8px; }
+    .grid { grid-template-columns: 1fr; gap: 32px; }
+    .job { grid-template-columns: 1fr; gap: 10px; padding: 24px 0; }
+    .job-date { padding-top: 0; }
+    .contact { gap: 14px 20px; font-size: 13px; }
+    footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+
+  /* ── PRINT ────────────────────────────────────────── */
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .page { padding: 24px; max-width: 100%; }
+    section, header { animation: none; opacity: 1; }
+    .grid { gap: 32px; grid-template-columns: 1fr 280px; }
+    header { grid-template-columns: 1fr 160px; gap: 32px; }
+    .portrait { transform: none; box-shadow: 0 0 0 1px var(--rule); }
+    .portrait-caption { display: none; }
+    h1 { font-size: 48px; }
+    .job:hover { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="header-text">
+      <div class="eyebrow">Curriculum Vitæ — 2026</div>
+      <h1>Ngeab Toung <span class="italic">Lay</span></h1>
+      <div class="role">Accountant · Boston, Massachusetts</div>
+      <div class="contact">
+        <a href="mailto:Lngeabtoung@gmail.com"><span class="dot"></span>Lngeabtoung@gmail.com</a>
+        <a href="tel:+17818547644"><span class="dot"></span>781·854·7644</a>
+        <span><span class="dot"></span>32 Fenley Street, Revere, MA 02151</span>
+      </div>
+    </div>
+    <div class="portrait">
+      <img src="portrait.jpg" alt="Portrait of Ngeab Toung Lay">
+      <div class="portrait-caption">N. T. L.</div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ── MAIN COLUMN ── -->
+    <main>
+
+      <section>
+        <div class="section-label"><span class="num">01</span>Profile</div>
+        <p class="summary">
+          Highly educated, motivated accounting professional with substantive experience across reconciliations, AP/AR, payroll, and financial reporting. A quick learner who excels under pressure without compromising precision — bringing analytical depth, vendor diplomacy, and a knack for tightening the financial close.
+        </p>
+      </section>
+
+      <section>
+        <div class="section-label"><span class="num">02</span>Experience</div>
+
+        <article class="job">
+          <div class="job-date">09/2024<br><span class="present">Present</span></div>
+          <div>
+            <div class="job-title">Accountant</div>
+            <div class="job-company">Columbus Hospitality Group<span class="loc">Boston, MA</span></div>
+            <ul class="job-list">
+              <li>Perform daily bank and cash reconciliations to ensure accurate balances and timely tracking across accounts.</li>
+              <li>Process vendor invoices and expense reports with accuracy and short turnaround.</li>
+              <li>Support month-end and year-end close, including journal entries and account reconciliations.</li>
+              <li>Prepare schedules, reports, and documentation for audits and internal reviews.</li>
+              <li>Partner with billing on collections and revenue recognition; maintain financial controls and policy compliance.</li>
+              <li>Run bi-weekly payroll, resolve payroll inquiries, and reconcile discrepancies.</li>
+              <li>Prepare budgets and financial statements — income statements, balance sheets, and cash flow.</li>
+              <li>Manage AP/AR end-to-end, including recurring invoice setup and monthly client AP liaison.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-date">07/2022<br>09/2024</div>
+          <div>
+            <div class="job-title">Accounts Payable and Receivable Supervisor</div>
+            <div class="job-company">Heath Properties<span class="loc">Boston, MA</span></div>
+            <ul class="job-list">
+              <li>Oversaw daily operations of AP and AR, ensuring accuracy, timeliness, and procedural compliance.</li>
+              <li>Managed the AP/AR team — guidance, performance support, and process ownership.</li>
+              <li>Reconciled financial records and investigated discrepancies through to resolution.</li>
+              <li>Prepared and analyzed financial reports to surface trends and improvement opportunities.</li>
+              <li>Ran collections — follow-up, negotiation, and structured payment arrangements.</li>
+              <li>Identified and implemented process improvements for efficiency and accuracy.</li>
+              <li>Ensured compliance with accounting standards and relevant regulations.</li>
+              <li>Compiled and filed year-end 1098 / 1099 data and reports on deadline.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-date">02/2022<br>06/2022</div>
+          <div>
+            <div class="job-title">Accountant</div>
+            <div class="job-company">Amigos Brazilian Steakhouse Co., Ltd<span class="loc">Phnom Penh, Cambodia</span></div>
+            <ul class="job-list">
+              <li>Prepared monthly payroll, daily sales and expense reports.</li>
+              <li>Maintained customer records and purchasing orders.</li>
+              <li>Recorded COD and credit payments; handled petty cash.</li>
+              <li>Prepared invoices for monthly tax declaration.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-date">06/2021<br>02/2022</div>
+          <div>
+            <div class="job-title">Accountant</div>
+            <div class="job-company">WKL Ecoearth Indochina Co., Ltd<span class="loc">Phnom Penh, Cambodia</span></div>
+            <ul class="job-list">
+              <li>Issued invoices, quotations, receipts, delivery notes, and related documents.</li>
+              <li>Maintained daily, weekly, and monthly stock reports for management.</li>
+              <li>Prepared monthly payroll, financial statements, and bank reconciliations.</li>
+              <li>Managed petty cash reimbursement and tax-declaration invoicing.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-date">05/2019<br>06/2021</div>
+          <div>
+            <div class="job-title">Billing Officer</div>
+            <div class="job-company">LCH Spare Parts Co., Ltd<span class="loc">Phnom Penh, Cambodia</span></div>
+            <ul class="job-list">
+              <li>Processed seller orders from Line/Telegram; validated pricing and inventory before issuing invoices.</li>
+              <li>Handled cash collection and office supply management.</li>
+              <li>Organized post-warehouse invoice records by date for traceability.</li>
+            </ul>
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+
+    <!-- ── SIDEBAR ── -->
+    <aside>
+
+      <section>
+        <div class="section-label"><span class="num">03</span>Key Achievements</div>
+
+        <div class="achievement">
+          <div class="achievement-title"><span class="metric">20%</span> Faster Processing</div>
+          <div class="achievement-desc">Reduced invoice processing time through streamlined workflow improvements.</div>
+        </div>
+
+        <div class="achievement">
+          <div class="achievement-title"><span class="metric">30%</span> Fewer Discrepancies</div>
+          <div class="achievement-desc">Audited and reconciled accounts to reduce discrepancies within a year.</div>
+        </div>
+
+        <div class="achievement">
+          <div class="achievement-title"><span class="metric">50+</span> Vendor Relationships</div>
+          <div class="achievement-desc">Managed finances for over fifty vendors with 95% timely payment performance.</div>
+        </div>
+
+        <div class="achievement">
+          <div class="achievement-title"><span class="metric">↑</span> Cash Flow</div>
+          <div class="achievement-desc">Negotiated 30% better payment terms with suppliers to optimize working capital.</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label"><span class="num">04</span>Education</div>
+
+        <div class="edu">
+          <div class="edu-degree">Bachelor of Accounting</div>
+          <div class="edu-school">Vanda Institute of Accounting</div>
+          <div class="edu-meta">2019 — Phnom Penh, Cambodia</div>
+        </div>
+
+        <div class="edu">
+          <div class="edu-degree">Short Course in Income Tax</div>
+          <div class="edu-school">Institute of Finance and Accounting</div>
+          <div class="edu-meta">2021 — Phnom Penh, Cambodia</div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-label"><span class="num">05</span>Languages & Tools</div>
+        <div class="edu" style="border-top:1px solid var(--rule);">
+          <div class="edu-school" style="line-height:1.7;">
+            Reconciliations · AP/AR · Payroll<br>
+            Month/Year-End Close · 1098/1099<br>
+            Financial Reporting · Audit Support
+          </div>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+
+  <footer>
+    <div>References available on request</div>
+    <div class="mark">— ntl.</div>
+  </footer>
+
+</div>
+</body>
+</html>
